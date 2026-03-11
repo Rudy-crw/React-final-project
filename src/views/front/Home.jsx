@@ -176,6 +176,181 @@ const Home = () => {
           </div>
         </div>
       </section>
+      {/* =========================================
+          4. 熱門精選車款 (Featured Models) - 深色區塊
+          ========================================= */}
+      <section className="py-5 bg-dark text-white">
+        <div className="container py-5">
+          <div className="text-center mb-5">
+            <h2 className="fw-bold display-6">夢幻車庫 精選推薦</h2>
+            <div
+              className="bg-danger mx-auto mt-3 rounded"
+              style={{ width: "60px", height: "4px" }}
+            ></div>
+            <p className="text-white-50 mt-3 fs-5">
+              本月最受歡迎的熱門租賃車款
+            </p>
+          </div>
+
+          <div className="row g-4">
+            {/* 熱門車款 1 */}
+            <div className="col-md-4">
+              <div className="card h-100 bg-transparent border-light border-opacity-25 text-white feature-card">
+                {/* 這裡先放假圖，之後可換成真實圖片 */}
+                <div
+                  style={{ height: "250px", overflow: "hidden" }}
+                  className="rounded-top"
+                >
+                  <img
+                    src="https://github.com/Rudy-crw/images/blob/main/tiny/12/12.jpg?raw=true"
+                    className="w-100 h-100 object-fit-cover"
+                    alt="Ducati"
+                  />
+                </div>
+                <div className="card-body p-4">
+                  <span className="badge bg-danger mb-2">義大利浪漫</span>
+                  <h4 className="fw-bold">Ducati Panigale V4 S</h4>
+                  <p className="text-white-50">
+                    體驗 MotoGP 級別的空氣力學與狂暴 V4
+                    引擎，征服賽道的終極武器。
+                  </p>
+                </div>
+              </div>
+            </div>
+            {/* 熱門車款 2 */}
+            <div className="col-md-4">
+              <div className="card h-100 bg-transparent border-light border-opacity-25 text-white feature-card">
+                <div
+                  style={{ height: "250px", overflow: "hidden" }}
+                  className="rounded-top"
+                >
+                  <img
+                    src="https://github.com/Rudy-crw/images/blob/main/tiny/11/11.png?raw=true"
+                    className="w-100 h-100 object-fit-cover"
+                    alt="BMW"
+                  />
+                </div>
+                <div className="card-body p-4">
+                  <span className="badge bg-primary mb-2">德系工藝</span>
+                  <h4 className="fw-bold">BMW S1000RR</h4>
+                  <p className="text-white-50">
+                    最聰明的電控系統搭配極致的直四引擎，完美平衡日常與賽道需求。
+                  </p>
+                </div>
+              </div>
+            </div>
+            {/* 熱門車款 3 */}
+            <div className="col-md-4">
+              <div className="card h-100 bg-transparent border-light border-opacity-25 text-white feature-card">
+                <div
+                  style={{ height: "250px", overflow: "hidden" }}
+                  className="rounded-top"
+                >
+                  <img
+                    src="https://github.com/Rudy-crw/images/blob/main/tiny/01/1.jpg?raw=true"
+                    className="w-100 h-100 object-fit-cover"
+                    alt="Yamaha"
+                  />
+                </div>
+                <div className="card-body p-4">
+                  <span className="badge bg-info text-dark mb-2">日系熱血</span>
+                  <h4 className="fw-bold">Yamaha YZF-R7</h4>
+                  <p className="text-white-50">
+                    純粹的彎道樂趣，CP2
+                    引擎帶來充沛的低轉扭力，新手與老手都能享受。
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center mt-5">
+            <Link
+              to="/products"
+              className="btn btn-danger px-5 py-2 rounded-pill fw-bold"
+            >
+              前往車庫
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================
+          5. 租車流程 (How it Works) - 純白區塊
+          ========================================= */}
+      <section className="py-5 bg-white text-dark">
+        <div className="container py-5">
+          <div className="text-center mb-5">
+            <h2 className="fw-bold display-6">簡單 4 步驟，即刻啟程</h2>
+            <div
+              className="bg-primary mx-auto mt-3 rounded"
+              style={{ width: "60px", height: "4px" }}
+            ></div>
+          </div>
+
+          <div className="row text-center g-4 relative">
+            <div className="col-6 col-md-3">
+              <div className="display-4 text-primary mb-3">
+                <i className="bi bi-phone"></i>
+              </div>
+              <h5 className="fw-bold">1. 線上預約</h5>
+              <p className="text-muted small">選擇心儀車款與租借時段</p>
+            </div>
+            <div className="col-6 col-md-3">
+              <div className="display-4 text-primary mb-3">
+                <i className="bi bi-file-earmark-check"></i>
+              </div>
+              <h5 className="fw-bold">2. 審核確認</h5>
+              <p className="text-muted small">客服將與您確認保險與細節</p>
+            </div>
+            <div className="col-6 col-md-3">
+              <div className="display-4 text-primary mb-3">
+                <i className="bi bi-key"></i>
+              </div>
+              <h5 className="fw-bold">3. 門市取車</h5>
+              <p className="text-muted small">檢查車況、領取裝備與鑰匙</p>
+            </div>
+            <div className="col-6 col-md-3">
+              <div className="display-4 text-primary mb-3">
+                <i className="bi bi-wind"></i>
+              </div>
+              <h5 className="fw-bold">4. 盡情騎乘</h5>
+              <p className="text-muted small">釋放靈魂，享受風的自由</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================
+          6. 車友評價 (Testimonials) - 淺灰區塊
+          ========================================= */}
+      <section className="py-5 bg-light text-dark">
+        <div className="container py-5">
+          <div className="row justify-content-center">
+            <div className="col-md-8 text-center">
+              {/* <i className="bi bi-quote display-1 text-primary opacity-50"></i> */}
+              <h3 className="fw-bold mb-4">"這是我體驗過最棒的租車服務！"</h3>
+              <p className="fs-5 text-muted fst-italic mb-4">
+                「原本擔心租高階仿賽會有很多壓力，但 R-Garage
+                的技師非常細心講解，車況好到像新車一樣。
+                路線推薦也很棒，下次一定會再來租 S1000RR！」
+              </p>
+              <div>
+                <img
+                  src="https://randomuser.me/api/portraits/men/32.jpg"
+                  alt="User"
+                  className="rounded-circle mb-2 shadow-sm"
+                  style={{ width: "60px", height: "60px" }}
+                />
+                <h6 className="fw-bold mb-0">Rider_Chen</h6>
+                <small className="text-muted">
+                  租借車款：Ducati Panigale V4 S
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

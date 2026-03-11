@@ -41,7 +41,7 @@ function Login() {
   } = useForm({
     mode: "onChange",
     defaultValues: {
-      username: "s60990340@gmail.com",
+      username: "",
       password: "",
     },
   });

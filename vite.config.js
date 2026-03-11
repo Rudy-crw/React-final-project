@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
 export default defineConfig(({ mode }) => {
-  const basePath = mode === "production" ? "/React-live-week7/" : "/";
+  const basePath = mode === "production" ? "/React-final-project/" : "/";
 
   return {
     base: basePath,
