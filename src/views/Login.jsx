@@ -5,8 +5,8 @@ import { useNavigate } from "react-router";
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
-import { useDispatch } from "react-redux";
-import { createAsyncMessage } from "../slice/messageSlice";
+// import { useDispatch } from "react-redux";
+// import { createAsyncMessage } from "../slice/messageSlice";
 import useMessage from "../hooks/useMessage";
 
 // SweetAlert
@@ -31,7 +31,7 @@ function Login() {
   //   password: "",
   // });
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { showError, showSuccess } = useMessage();
 
   const {

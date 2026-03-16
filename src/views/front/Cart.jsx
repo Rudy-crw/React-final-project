@@ -37,7 +37,12 @@ const Cart = () => {
   };
 
   useEffect(() => {
-    getCart();
+    const initFetch = async () => {
+      await getCart();
+    };
+
+    // 執行它
+    initFetch();
   }, []);
 
   const updateCart = async (cartId, productId, qty = 1) => {

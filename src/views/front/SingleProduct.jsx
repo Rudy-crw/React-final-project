@@ -58,13 +58,13 @@ const SingleProduct = () => {
     handleView(id);
   }, [id]);
   // -----
-  const addCart = async (id, qty) => {
+  const addCart = async (id, qty = 1) => {
     try {
       const data = {
         product_id: id,
-        qty: 1,
+        qty,
       };
-      const res = await axios.post(`${API_BASE}/api/${API_PATH}/cart`, {
+      await axios.post(`${API_BASE}/api/${API_PATH}/cart`, {
         data,
       });
       // console.log(res.data);

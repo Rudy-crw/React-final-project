@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { currency } from "../../utils/filter";
-import { get, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { RotatingLines } from "react-loader-spinner";
 import * as bootstrap from "bootstrap";
 import SingleProductModal from "../../components/SingleProductModal";
 
-import { useDispatch } from "react-redux";
-import { createAsyncMessage } from "../../slice/messageSlice";
+// import { useDispatch } from "react-redux";
+// import { createAsyncMessage } from "../../slice/messageSlice";
 import useMessage from "../../hooks/useMessage";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
@@ -42,7 +42,7 @@ const Checkout = () => {
   const [loadingProductId, setLoadingProductId] = useState(null);
   const productModalRef = useRef(null);
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { showError, showSuccess } = useMessage();
 
   const {
@@ -93,11 +93,7 @@ const Checkout = () => {
         product_id: productId,
         qty,
       };
-      // eslint-disable-next-line no-unused-vars
-      const res = await axios.put(
-        `${API_BASE}/api/${API_PATH}/cart/${cartId}`,
-        { data },
-      );
+      await axios.put(`${API_BASE}/api/${API_PATH}/cart/${cartId}`, { data });
       // Toast.fire({ icon: "success", title: "數量已更新" });
       // console.log(res);
       showSuccess("數量已更新！");
@@ -120,7 +116,7 @@ const Checkout = () => {
         product_id: id,
         qty,
       };
-      const res = await axios.post(`${API_BASE}/api/${API_PATH}/cart`, {
+      await axios.post(`${API_BASE}/api/${API_PATH}/cart`, {
         data,
       });
       // console.log(res.data);
@@ -142,10 +138,7 @@ const Checkout = () => {
 
   const delCart = async (cartId) => {
     try {
-      // eslint-disable-next-line no-unused-vars
-      const res = await axios.delete(
-        `${API_BASE}/api/${API_PATH}/cart/${cartId}`,
-      );
+      await axios.delete(`${API_BASE}/api/${API_PATH}/cart/${cartId}`);
       // console.log(res);
       // const res2 = await axios.get(`${API_BASE}/api/${API_PATH}/cart`);
       // setCart(res2.data.data);
@@ -163,8 +156,7 @@ const Checkout = () => {
 
   const delAllCart = async () => {
     try {
-      // eslint-disable-next-line no-unused-vars
-      const res = await axios.delete(`${API_BASE}/api/${API_PATH}/cart1`);
+      await axios.delete(`${API_BASE}/api/${API_PATH}/cart1`);
       // console.log(res);
       // const res2 = await axios.get(`${API_BASE}/api/${API_PATH}/cart`);
       // setCart(res2.data.data);

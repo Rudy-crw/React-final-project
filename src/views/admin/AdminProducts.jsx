@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import axios from "axios";
 import * as bootstrap from "bootstrap";
 import ProductModal from "../../components/ProductModal";
@@ -8,6 +8,7 @@ import Pagination from "../../components/Pagination";
 import { useDispatch } from "react-redux";
 import { createAsyncMessage } from "../../slice/messageSlice";
 import useMessage from "../../hooks/useMessage";
+import { currency } from "../../utils/filter";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -48,22 +49,23 @@ function AdminProducts() {
   const [pagination, setPagination] = useState({});
   const productModalRef = useRef(null);
   const dispatch = useDispatch();
-  const { showError, showSuccess } = useMessage();
+  const { showSuccess } = useMessage();
 
-  const getProducts = async (page = 1) => {
-    try {
-      const res = await axios.get(
-        `${API_BASE}/api/${API_PATH}/admin/products?page=${page}`,
-      );
-      setProducts(Object.values(res.data.products));
-      // console.log(Object.values(res.data.products));
-      setPagination(res.data.pagination);
-      showSuccess("取得成功");
-    } catch (e) {
-      // console.error(e);
-      dispatch(createAsyncMessage(e.response.data.message));
-    }
-  };
+  const getProducts = useCallback(
+    async (page = 1) => {
+      try {
+        const res = await axios.get(
+          `${API_BASE}/api/${API_PATH}/admin/products?page=${page}`,
+        );
+        setProducts(Object.values(res.data.products));
+        setPagination(res.data.pagination);
+        showSuccess("取得產品列表成功");
+      } catch (e) {
+        dispatch(createAsyncMessage(e.response?.data?.message || "取得失敗"));
+      }
+    },
+    [dispatch, showSuccess],
+  );
   useEffect(() => {
     // const token = document.cookie
     //   .split("; ")
@@ -89,9 +91,13 @@ function AdminProducts() {
     productModalRef.current = new bootstrap.Modal("#productModal", {
       keyboard: false,
     });
-    getProducts();
-    //關閉時移除焦點?!!?!
-  }, []);
+    const initFetch = async () => {
+      await getProducts();
+    };
+
+    // 然後執行它
+    initFetch();
+  }, [getProducts]);
 
   const openModal = (type, product) => {
     // console.log(product);
@@ -135,8 +141,8 @@ function AdminProducts() {
                   <td>{item.category}</td>
                   <td>{item.style}</td>
                   <th scope="row">{item.title}</th>
-                  <td>{item.origin_price}</td>
-                  <td>{item.price}</td>
+                  <td>{currency(item.origin_price)}</td>
+                  <td>{currency(item.price)}</td>
                   <td className={`${item.is_enabled && "text-success"}`}>
                     {item.is_enabled ? "啟用" : "未啟用"}
                   </td>

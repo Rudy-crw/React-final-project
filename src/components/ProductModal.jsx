@@ -4,9 +4,9 @@ import { useEffect } from "react";
 
 // SweetAlert
 import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+// import withReactContent from "sweetalert2-react-content";
 import { useDispatch } from "react-redux";
-import { createAsyncMessage, createMessage } from "../slice/messageSlice";
+import { createAsyncMessage } from "../slice/messageSlice";
 
 import useMessage from "../hooks/useMessage";
 // SweetAlert
