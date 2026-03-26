@@ -11,6 +11,7 @@ import AdminProducts from "./views/admin/AdminProducts";
 import AdminLayout from "./layout/AdminLayout";
 import AdminOrders from "./views/admin/AdminOrders";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Success from "./views/front/Success";
 
 export const router = createHashRouter([
   {
@@ -36,6 +37,10 @@ export const router = createHashRouter([
       {
         path: "checkout",
         element: <Checkout />,
+      },
+      {
+        path: "success/:orderId",
+        element: <Success />,
       },
       {
         path: "login",
