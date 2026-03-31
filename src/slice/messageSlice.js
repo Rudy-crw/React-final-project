@@ -3,14 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const messageSlice = createSlice({
   name: "message",
-  initialState: [
-    // {
-    //   id: 1,
-    //   type: "success",
-    //   title: "成功",
-    //   text: "test",
-    // },
-  ],
+  initialState: [],
   reducers: {
     // 較常稱為 action
     createMessage(state, action) {

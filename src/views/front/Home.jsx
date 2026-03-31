@@ -62,12 +62,17 @@ const Home = () => {
             >
               立即預約
             </Link>
-            <a
-              href="#intro"
+            <button
+              type="button"
+              onClick={() =>
+                document
+                  .getElementById("intro")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
               className="btn btn-outline-light btn-lg px-5 py-3 rounded-pill"
             >
               了解更多
-            </a>
+            </button>
           </div>
         </div>
       </div>

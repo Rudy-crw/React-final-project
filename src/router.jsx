@@ -56,6 +56,7 @@ export const router = createHashRouter([
       </ProtectedRoute>
     ),
     children: [
+      { index: true, element: <AdminProducts /> },
       { path: "products", element: <AdminProducts /> },
       {
         path: "orders",

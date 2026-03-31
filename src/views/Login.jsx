@@ -4,34 +4,10 @@ import { emailValidation } from "../utils/validation";
 import { useNavigate } from "react-router";
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
-
-// import { useDispatch } from "react-redux";
-// import { createAsyncMessage } from "../slice/messageSlice";
 import useMessage from "../hooks/useMessage";
 
-// SweetAlert
-// import Swal from "sweetalert2";
-// import withReactContent from "sweetalert2-react-content";
-// SweetAlert
-// const MySwal = withReactContent(Swal);
-// 2. 自定義一個 Toast (右上角小提示)
-// 這樣之後呼叫只要寫 Toast.fire(...) 即可，不用重複寫設定
-// const Toast = MySwal.mixin({
-//   toast: true,
-//   position: "top",
-//   showConfirmButton: false,
-//   timer: 2000,
-//   timerProgressBar: true,
-// });
-
 function Login() {
-  // function Login({ getProducts, setIsAuth }) {
-  // const [formData, setFormData] = useState({
-  //   username: "",
-  //   password: "",
-  // });
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
   const { showError, showSuccess } = useMessage();
 
   const {
@@ -45,37 +21,19 @@ function Login() {
       password: "",
     },
   });
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     [name]: value,
-  //   }));
-  // };
 
   const onSubmit = async (formData) => {
     try {
-      // e.preventDefault();
       const res = await axios.post(`${API_BASE}/admin/signin`, formData);
-      console.log(res.data);
       const { token, expired } = res.data;
       // eslint-disable-next-line
       document.cookie = `hexToken=${token}; expires=${new Date(expired)}`;
       // eslint-disable-next-line
       axios.defaults.headers.common["Authorization"] = token;
-      // Toast.fire({
-      //   icon: "success",
-      //   title: "登入成功",
-      // });
       showSuccess("登入成功");
       navigate("/admin/products");
     } catch (e) {
-      // Toast.fire({
-      //   icon: "error",
-      //   title: "登入失敗，請檢查帳號密碼！",
-      // });
-      console.log(e.response);
-      showError(`登入失敗，請檢查帳號密碼！`);
+      showError(`登入失敗，請檢查帳號密碼！`, e.message);
     }
   };
 
@@ -95,8 +53,6 @@ function Login() {
                 className="form-control"
                 name="username"
                 placeholder="name@product.com"
-                // value={formData.username}
-                // onChange={handleInputChange}
                 required
                 autoFocus
                 {...register("username", emailValidation)}
@@ -112,8 +68,6 @@ function Login() {
                 className="form-control"
                 name="password"
                 placeholder="Password"
-                // value={formData.password}
-                // onChange={handleInputChange}
                 required
                 {...register("password", {
                   required: "請輸入密碼",

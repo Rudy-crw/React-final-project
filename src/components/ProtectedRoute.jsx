@@ -21,8 +21,7 @@ const ProtectedRoute = ({ children }) => {
 
     const checkLogin = async () => {
       try {
-        const res = await axios.post(`${API_BASE}/api/user/check`);
-        console.log("token 驗證結果:", res.data);
+        await axios.post(`${API_BASE}/api/user/check`);
         setIsAuth(true);
       } catch (error) {
         console.error("token 驗證失敗", error.response);
@@ -32,7 +31,6 @@ const ProtectedRoute = ({ children }) => {
     };
     checkLogin();
   }, []);
-  // }, [navigate]);
   if (loading) return <RotatingTriangles />;
   if (!isAuth) return <Navigate to="/login" />;
 

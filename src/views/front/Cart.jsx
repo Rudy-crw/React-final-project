@@ -1,10 +1,11 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { currency } from "../../utils/filter";
 import { useDispatch } from "react-redux";
 import { createAsyncMessage } from "../../slice/messageSlice";
 import useMessage from "../../hooks/useMessage";
 import { Link } from "react-router";
+import { RotatingLines } from "react-loader-spinner";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -13,22 +14,26 @@ const Cart = () => {
   const { showError, showSuccess } = useMessage();
   const dispatch = useDispatch();
   const [cart, setCart] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
-  const getCart = async () => {
+  const getCart = useCallback(async () => {
+    setIsLoading(true);
     try {
       const res = await axios.get(`${API_BASE}/api/${API_PATH}/cart`);
       setCart(res.data.data);
-    } catch (error) {
-      console.log(error.response);
+    } catch (e) {
+      dispatch(createAsyncMessage(e.response?.data?.message || "取得失敗"));
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     const initFetch = async () => {
       await getCart();
     };
     initFetch();
-  }, []);
+  }, [getCart]);
 
   const updateCart = async (cartId, productId, qty = 1) => {
     try {
@@ -66,6 +71,28 @@ const Cart = () => {
 
   return (
     <div className="container mt-4 mb-5">
+      {isLoading && (
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(255, 255, 255, 0.7)", // 漂亮的半透明白紗
+            zIndex: 9999, // 確保蓋在 Navbar 和所有東西之上
+          }}
+        >
+          <RotatingLines
+            strokeColor="#212529" // 前台可以用深灰色 (Bootstrap 的 dark 色) 比較有質感
+            strokeWidth="5"
+            animationDuration="0.75"
+            width="80"
+            visible={true}
+          />
+        </div>
+      )}
       <div className="d-flex justify-content-between align-items-end mb-4">
         <h2 className="fw-bold mb-0">預約車庫</h2>
         <button

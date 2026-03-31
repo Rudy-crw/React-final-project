@@ -1,29 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
-
-// SweetAlert
 import Swal from "sweetalert2";
-// import withReactContent from "sweetalert2-react-content";
 import { useDispatch } from "react-redux";
 import { createAsyncMessage } from "../slice/messageSlice";
-
 import useMessage from "../hooks/useMessage";
-// SweetAlert
-// const MySwal = withReactContent(Swal);
-// 2. 自定義一個 Toast (右上角小提示)
-// 這樣之後呼叫只要寫 Toast.fire(...) 即可，不用重複寫設定
-// const Toast = MySwal.mixin({
-//   toast: true,
-//   position: "top-end",
-//   showConfirmButton: false,
-//   timer: 3000,
-//   timerProgressBar: true,
-//   didOpen: (toast) => {
-//     toast.onmouseenter = Swal.stopTimer;
-//     toast.onmouseleave = Swal.resumeTimer;
-//   },
-// });
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -47,7 +28,6 @@ function ProductModal({ modalType, templateProduct, closeModal, getProducts }) {
     setTempData((pre) => {
       const newImage = [...pre.imagesUrl];
       newImage[index] = value;
-
       if (
         value !== "" &&
         index === newImage.length - 1 &&
@@ -110,46 +90,22 @@ function ProductModal({ modalType, templateProduct, closeModal, getProducts }) {
     };
     try {
       const res = await axios[method](url, productData);
-      // console.log(res.data);
-      // Toast.fire({
-      //   icon: "success",
-      //   title: `商品${method === "post" ? "新增" : "更新"}成功！`,
-      // });
+
       dispatch(createAsyncMessage(res.data));
       getProducts();
       closeModal();
     } catch (error) {
-      // // console.error(e.message);
-      // const errorMessage = error.response?.data?.message || error.message;
-      // // 這裡如果錯誤比較嚴重，維持使用 MySwal (中間彈窗) 比較醒目
-      // MySwal.fire({
-      //   title: "操作失敗",
-      //   text: errorMessage,
-      //   icon: "error",
-      // });
       showError(error.response.data.message);
     }
   };
   const delProduct = async (id) => {
     try {
-      const res = await axios.delete(
-        `${API_BASE}/api/${API_PATH}/admin/product/${id}`,
-      );
-      console.log(res.data);
-      // Toast.fire({
-      //   icon: "success",
-      //   title: "商品已成功刪除",
-      // });
+      await axios.delete(`${API_BASE}/api/${API_PATH}/admin/product/${id}`);
+
       showSuccess("商品已成功刪除");
       getProducts();
       closeModal();
     } catch (error) {
-      // console.error(error.message);
-      // Toast.fire({
-      //   icon: "error",
-      //   title: "刪除失敗",
-      //   text: error.response?.data?.message,
-      // });
       showError(error.response.data.message);
     }
   };
@@ -157,10 +113,6 @@ function ProductModal({ modalType, templateProduct, closeModal, getProducts }) {
     const file = e.target.files?.[0];
 
     if (!file) {
-      // Toast.fire({
-      //   icon: "warning",
-      //   title: "請選擇要上傳的檔案",
-      // });
       showError("請選擇要上傳的檔案");
       return;
     }
@@ -177,18 +129,8 @@ function ProductModal({ modalType, templateProduct, closeModal, getProducts }) {
         ...pre,
         imageUrl: res.data.imageUrl,
       }));
-
-      // Toast.fire({
-      //   icon: "success",
-      //   title: "圖片上傳成功",
-      // });
       showSuccess("圖片上傳成功");
     } catch (error) {
-      // console.log(error.response);
-      // Toast.fire({
-      //   icon: "error",
-      //   title: "圖片上傳失敗",
-      // });
       showError(error);
     }
   };

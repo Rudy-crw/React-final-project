@@ -3,11 +3,9 @@ import axios from "axios";
 import * as bootstrap from "bootstrap";
 import ProductModal from "../../components/ProductModal";
 import Pagination from "../../components/Pagination";
-// import { useNavigate } from "react-router";
-// import { TailSpin } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { useDispatch } from "react-redux";
 import { createAsyncMessage } from "../../slice/messageSlice";
-import useMessage from "../../hooks/useMessage";
 import { currency } from "../../utils/filter";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
@@ -26,81 +24,46 @@ const INITIAL_TEMPLATE_DATA = {
   imageUrl: "",
   imagesUrl: [],
   style: "",
-  //, 新增API 沒有的屬性
 };
 
 function AdminProducts() {
-  // const navigate = useNavigate();
-  // const [isAuth, setIsAuth] = useState(false);
-  // const [isAuth, setIsAuth] = useState(() => {
-  //   const token = document.cookie
-  //     .split("; ")
-  //     .find((row) => row.startsWith("hexToken="))
-  //     ?.split("=")[1];
-  //   if (token) {
-  //     axios.defaults.headers.common["Authorization"] = token;
-  //     return true;
-  //   }
-  //   return false;
-  // });
   const [products, setProducts] = useState([]);
   const [templateProduct, setTemplateProduct] = useState(INITIAL_TEMPLATE_DATA);
   const [modalType, setModalType] = useState();
   const [pagination, setPagination] = useState({});
   const productModalRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-  const { showSuccess } = useMessage();
 
   const getProducts = useCallback(
     async (page = 1) => {
+      setIsLoading(true);
       try {
         const res = await axios.get(
           `${API_BASE}/api/${API_PATH}/admin/products?page=${page}`,
         );
         setProducts(Object.values(res.data.products));
         setPagination(res.data.pagination);
-        showSuccess("取得產品列表成功");
       } catch (e) {
         dispatch(createAsyncMessage(e.response?.data?.message || "取得失敗"));
+      } finally {
+        setIsLoading(false);
       }
     },
-    [dispatch, showSuccess],
+    [dispatch],
   );
   useEffect(() => {
-    // const token = document.cookie
-    //   .split("; ")
-    //   .find((row) => row.startsWith("hexToken="))
-    //   ?.split("=")[1];
-    // if (!token) {
-    //   navigate("/login");
-    //   return;
-    // }
-    // axios.defaults.headers.common["Authorization"] = token;
-    // const checkLogin = async () => {
-    //   try {
-    //     const res = await axios.post(`${API_BASE}/api/user/check`);
-    //     console.log("token 驗證結果:", res.data);
-    //     setIsAuth(true);
-    //     getProducts();
-    //   } catch (error) {
-    //     console.error("token 驗證失敗", error.response);
-    //     showError(error.response.data.message);
-    //   }
-    // };
-    // checkLogin();
     productModalRef.current = new bootstrap.Modal("#productModal", {
       keyboard: false,
     });
     const initFetch = async () => {
       await getProducts();
     };
-
-    // 然後執行它
     initFetch();
-  }, [getProducts]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const openModal = (type, product) => {
-    // console.log(product);
     setModalType(type);
     setTemplateProduct({ ...INITIAL_TEMPLATE_DATA, ...product });
     productModalRef.current.show();
@@ -112,6 +75,28 @@ function AdminProducts() {
   return (
     <>
       <div className="container">
+        {isLoading && (
+          <div
+            className="d-flex justify-content-center align-items-center"
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: "rgba(255, 255, 255, 0.7)",
+              zIndex: 9999,
+            }}
+          >
+            <RotatingLines
+              strokeColor="#0d6efd"
+              strokeWidth="5"
+              animationDuration="0.75"
+              width="80"
+              visible={true}
+            />
+          </div>
+        )}
         <h2>產品列表</h2>
         <div className="text-end mt-4">
           <button

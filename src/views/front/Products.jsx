@@ -1,41 +1,34 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import useMessage from "../../hooks/useMessage";
 import { currency } from "../../utils/filter";
+import { RotatingLines } from "react-loader-spinner";
+
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { showError } = useMessage();
   useEffect(() => {
     const getProducts = async () => {
+      setIsLoading(true);
       try {
         const res = await axios.get(`${API_BASE}/api/${API_PATH}/products/all`);
         setProducts(res.data.products);
-        // console.log(res.data.products);
-      } catch (error) {
-        console.log(error.response);
+      } catch (e) {
+        showError("取得產品資料失敗", e.message);
+      } finally {
+        setIsLoading(false);
       }
     };
     getProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // 下面為方法一 使用 navigate 傳遞 state 給單一產品頁面
-  // const handleView = async (id) => {
-  //   try {
-  //     const res = await axios.get(`${API_BASE}/api/${API_PATH}/product/${id}`);
-  //     console.log(res.data.product);
-  //     navigate(`/product/${id}`, {
-  //       state: {
-  //         productData: res.data.product,
-  //       },
-  //     });
-  //   } catch (error) {
-  //     console.log(error.response);
-  //   }
-  // };
 
-  //下面為方法二 使用 useParams 將 id 透過 navigate 倒入下一分頁 重新打 API 取得資料
   const handleView = (id) => {
     navigate(`/product/${id}`);
   };
@@ -43,7 +36,29 @@ const Products = () => {
   return (
     <>
       <div className="container">
-        <div className="row justidy-content-center">
+        {isLoading && (
+          <div
+            className="d-flex justify-content-center align-items-center"
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: "rgba(255, 255, 255, 0.7)", // 漂亮的半透明白紗
+              zIndex: 9999, // 確保蓋在 Navbar 和所有東西之上
+            }}
+          >
+            <RotatingLines
+              strokeColor="#212529" // 前台可以用深灰色 (Bootstrap 的 dark 色) 比較有質感
+              strokeWidth="5"
+              animationDuration="0.75"
+              width="80"
+              visible={true}
+            />
+          </div>
+        )}
+        <div className="row justify-content-center">
           {products.map((product) => (
             <div className="col-md-4  col-6 mb-3 " key={product.id}>
               <div className="card ">
